@@ -10,7 +10,6 @@ jobs:
       matrix:
         ros_distribution:
           - galactic
-          - rolling
         include:
             # Galactic
           - docker_image: rostooling/setup-ros-docker:ubuntu-focal-ros-galactic-desktop-latest
