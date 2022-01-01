@@ -14,6 +14,7 @@
   <depend>husky_control</depend>
   <depend>husky_description</depend>
   <depend>navigation2</depend>
+  <depend>robot_localization</depend>
   <depend>robot_state_publisher</depend>
 
   <test_depend>ament_lint_auto</test_depend>
