@@ -52,6 +52,5 @@ def generate_launch_description():
             output='screen',
             parameters=[configured_params],
             remappings=[('odometry/filtered', 'odometry/filtered_map'),
-                        ('gps/fix', 'gps/data'),
                         ('imu', 'imu/data')])
     ])

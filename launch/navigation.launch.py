@@ -8,6 +8,7 @@ from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     current_pkg = FindPackageShare('spraybot_bringup')
+    spraybot_bt_pkg = FindPackageShare('spraybot_behavior_tree')
 
     use_sim_time = LaunchConfiguration('use_sim_time')
     autostart = LaunchConfiguration('autostart')
@@ -16,8 +17,7 @@ def generate_launch_description():
     lifecycle_nodes_navigation = ['controller_server',
                                   'planner_server',
                                   'recoveries_server',
-                                  'bt_navigator',
-                                  'waypoint_follower']
+                                  'bt_navigator']
 
     lifecycle_nodes_localization = ['map_server']
 
@@ -25,7 +25,10 @@ def generate_launch_description():
     param_substitutions = {
         'use_sim_time': use_sim_time,
         'autostart': autostart,
-        'yaml_filename': map_yaml_file}
+        'yaml_filename': map_yaml_file,
+        'default_nav_through_poses_bt_xml': PathJoinSubstitution(
+            [spraybot_bt_pkg, 'behavior_trees', 'spraybot_gps_planning.xml'])
+        }
 
     configured_params = RewrittenYaml(
             source_file=LaunchConfiguration('params_file'),
@@ -89,13 +92,6 @@ def generate_launch_description():
             package='nav2_bt_navigator',
             executable='bt_navigator',
             name='bt_navigator',
-            output='screen',
-            parameters=[configured_params]),
-
-        Node(
-            package='nav2_waypoint_follower',
-            executable='waypoint_follower',
-            name='waypoint_follower',
             output='screen',
             parameters=[configured_params]),
 

@@ -11,6 +11,7 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     ld = LaunchDescription()
     current_pkg = FindPackageShare('spraybot_bringup')
+    spraybot_simulation_pkg = FindPackageShare('spraybot_simulation')
     husky_control_pkg = FindPackageShare('husky_control')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
@@ -22,7 +23,8 @@ def generate_launch_description():
     ld.add_action(declare_rviz_config_file)
 
     declare_world_path = DeclareLaunchArgument(
-        'world_path', default_value='',
+        'world_path',
+        default_value=PathJoinSubstitution([spraybot_simulation_pkg, 'worlds', 'spraybot.world']),
         description='The world path, by default is empty.world')
     ld.add_action(declare_world_path)
 
