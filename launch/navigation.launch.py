@@ -17,7 +17,8 @@ def generate_launch_description():
     lifecycle_nodes_navigation = ['controller_server',
                                   'planner_server',
                                   'recoveries_server',
-                                  'bt_navigator']
+                                  'bt_navigator',
+                                  'waypoint_follower']
 
     lifecycle_nodes_localization = ['map_server']
 
@@ -92,6 +93,13 @@ def generate_launch_description():
             package='nav2_bt_navigator',
             executable='bt_navigator',
             name='bt_navigator',
+            output='screen',
+            parameters=[configured_params]),
+
+        Node(
+            package='nav2_waypoint_follower',
+            executable='waypoint_follower',
+            name='waypoint_follower',
             output='screen',
             parameters=[configured_params]),
 
