@@ -13,6 +13,9 @@
   <depend>gazebo_ros</depend>
   <depend>husky_control</depend>
   <depend>husky_description</depend>
+  <!-- Commented out for CI dependency purposes
+  <depend>spraybot_behavior_tree</depend>
+  <depend>spraybot_simulation</depend> -->
   <depend>navigation2</depend>
   <depend>robot_localization</depend>
   <depend>robot_state_publisher</depend>
