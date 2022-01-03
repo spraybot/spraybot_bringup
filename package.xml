@@ -13,9 +13,13 @@
   <depend>gazebo_ros</depend>
   <depend>husky_control</depend>
   <depend>husky_description</depend>
+  <!-- TODO: Fix CI dependency issues -->
   <!-- Commented out for CI dependency purposes
   <depend>spraybot_behavior_tree</depend>
   <depend>spraybot_simulation</depend> -->
+  <!-- Commented out for CI, since currently
+    its not available on apt
+  <depend>mapviz</depend> -->
   <depend>navigation2</depend>
   <depend>robot_localization</depend>
   <depend>robot_state_publisher</depend>

@@ -1,0 +1,118 @@
+fixed_frame: map
+target_frame: base_link
+fix_orientation: false
+rotate_90: true
+enable_antialiasing: true
+show_displays: true
+show_status_bar: true
+show_capture_tools: true
+window_width: 1848
+window_height: 1016
+view_scale: 0.09229598
+offset_x: 0
+offset_y: 0
+use_latest_transforms: true
+background: "#a0a0a4"
+image_transport: raw
+displays:
+  - type: mapviz_plugins/tile_map
+    name: Map
+    config:
+      visible: true
+      collapsed: true
+      custom_sources:
+        - base_url: http://localhost:8080/wmts/gm_layer/gm_grid/{level}/{x}/{y}.png
+          max_zoom: 19
+          name: GMaps
+          type: wmts
+        - base_url: https://tile.openstreetmap.org/{level}/{x}/{y}.png
+          max_zoom: 19
+          name: OSM
+          type: wmts
+      source: GMaps
+  - type: mapviz_plugins/grid
+    name: Grid
+    config:
+      visible: true
+      collapsed: true
+      color: "#ffffff"
+      alpha: 0.1
+      frame: map
+      x: -500
+      y: -500
+      size: 10
+      rows: 100
+      columns: 100
+  - type: mapviz_plugins/navsat
+    name: GPS Location
+    config:
+      visible: true
+      collapsed: true
+      topic: /gps/fix
+      color: "#ff1900"
+      draw_style: points
+      position_tolerance: 0
+      buffer_size: 1
+  - type: mapviz_plugins/tf_frame
+    name: Current Pose
+    config:
+      visible: true
+      collapsed: true
+      frame: base_link
+      color: "#ff0000"
+      draw_style: arrows
+      position_tolerance: 0
+      buffer_size: 1
+      static_arrow_sizes: true
+      arrow_size: 64
+  - type: mapviz_plugins/odometry
+    name: Odom Map
+    config:
+      visible: true
+      collapsed: true
+      topic: /odometry/filtered_map
+      color: "#00ff00"
+      draw_style: points
+      position_tolerance: 0.5
+      buffer_size: 0
+      show_laps: false
+      show_covariance: true
+      show_all_covariances: false
+      static_arrow_sizes: false
+      arrow_size: 42
+      show_timestamps: 0
+  - type: mapviz_plugins/path
+    name: Global Path
+    config:
+      visible: true
+      collapsed: true
+      topic: /plan
+      color: "#00ff00"
+  - type: mapviz_plugins/point_click_publisher
+    name: Publish Goal
+    config:
+      visible: false
+      collapsed: true
+      topic: clicked_point
+      output_frame: map
+  - type: mapviz_plugins/measuring
+    name: Measure
+    config:
+      visible: false
+      collapsed: true
+      main_color: "#ffffff"
+      bkgnd_color: "#000000"
+      show_bkgnd_color: true
+      show_measurements: true
+      font_size: 10
+      alpha: 0.5
+  - type: mapviz_plugins/attitude_indicator
+    name: Attitude
+    config:
+      visible: true
+      collapsed: true
+      topic: /imu/data
+      x: 0
+      y: 0
+      width: 100
+      height: 100
