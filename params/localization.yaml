@@ -179,7 +179,7 @@ navsat_transform:
     use_sim_time: true
     delay: 5.0 # TODO: Make it smaller if possible, allowing everything launch first
     magnetic_declination_radians: -0.161843334  # For lat/long 40.43889, -79.95833
-    yaw_offset: 3.14 # IMU reads 0 facing magnetic north, not east TODO: Check offset for VectorNav
+    yaw_offset: 0.0 # IMU reads 0 facing magnetic north, not east TODO: Check offset for VectorNav
     zero_altitude: false
     broadcast_utm_transform: true
     publish_filtered_gps: true
