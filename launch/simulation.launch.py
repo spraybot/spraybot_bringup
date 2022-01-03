@@ -1,6 +1,7 @@
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, ExecuteProcess, GroupAction,
                             IncludeLaunchDescription, RegisterEventHandler)
+from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
@@ -19,8 +20,20 @@ def generate_launch_description():
     declare_rviz_config_file = DeclareLaunchArgument(
         'rviz_config',
         default_value=PathJoinSubstitution([current_pkg, 'rviz', 'simulation.rviz']),
-        description='Full path to the RVIZ config file to use')
+        description='Full path to the Rviz config file to use')
     ld.add_action(declare_rviz_config_file)
+
+    declare_enable_gzclient = DeclareLaunchArgument(
+        'gzclient',
+        default_value='true',
+        description='Start Gazebo GUI')
+    ld.add_action(declare_enable_gzclient)
+
+    declare_enable_mapviz = DeclareLaunchArgument(
+        'mapviz',
+        default_value='false',
+        description='Start Mapviz')
+    ld.add_action(declare_enable_mapviz)
 
     declare_world_path = DeclareLaunchArgument(
         'world_path',
@@ -103,7 +116,7 @@ def generate_launch_description():
     gzclient = ExecuteProcess(
         cmd=['gzclient'],
         output='screen',
-        # condition=IfCondition(LaunchConfiguration('gui')),
+        condition=IfCondition(LaunchConfiguration('gzclient')),
     )
     ld.add_action(gzclient)
 
@@ -141,5 +154,11 @@ def generate_launch_description():
             launch_arguments={'use_sim_time': use_sim_time}.items())
         ])
     ld.add_action(localization_launch)
+
+    mapviz_launch = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                PathJoinSubstitution([current_pkg, 'launch', 'mapviz.launch.py'])),
+            condition=IfCondition(LaunchConfiguration('mapviz')))
+    ld.add_action(mapviz_launch)
 
     return ld
