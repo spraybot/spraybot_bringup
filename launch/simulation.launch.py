@@ -136,6 +136,7 @@ def generate_launch_description():
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
+        output={'both': 'log'},
         arguments=['-d', LaunchConfiguration('rviz_config')])
 
     ld.add_action(rviz_node)
