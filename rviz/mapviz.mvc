@@ -1,5 +1,5 @@
 fixed_frame: map
-target_frame: base_link
+target_frame: <none>
 fix_orientation: false
 rotate_90: true
 enable_antialiasing: true
@@ -38,11 +38,11 @@ displays:
       color: "#ffffff"
       alpha: 0.1
       frame: map
-      x: -500
-      y: -500
-      size: 10
-      rows: 100
-      columns: 100
+      x: -2500
+      y: -2500
+      size: 5
+      rows: 1000
+      columns: 1000
   - type: mapviz_plugins/navsat
     name: GPS Location
     config:
