@@ -30,6 +30,12 @@ def generate_launch_description():
     ld.add_action(declare_enable_gzclient)
 
     declare_enable_mapviz = DeclareLaunchArgument(
+        'viz',
+        default_value='true',
+        description='Start visualization using Rviz and Mapviz')
+    ld.add_action(declare_enable_mapviz)
+
+    declare_enable_mapviz = DeclareLaunchArgument(
         'mapviz',
         default_value='false',
         description='Start Mapviz')
@@ -133,13 +139,6 @@ def generate_launch_description():
     )
     ld.add_action(spawn_robot)
 
-    rviz_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        output={'both': 'log'},
-        arguments=['-d', LaunchConfiguration('rviz_config')])
-    ld.add_action(rviz_node)
-
     # Include other launch files
     teleop_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -155,10 +154,14 @@ def generate_launch_description():
         ])
     ld.add_action(localization_launch)
 
-    mapviz_launch = IncludeLaunchDescription(
+    visualization_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                PathJoinSubstitution([current_pkg, 'launch', 'mapviz.launch.py'])),
-            condition=IfCondition(LaunchConfiguration('mapviz')))
-    ld.add_action(mapviz_launch)
+                PathJoinSubstitution([current_pkg, 'launch', 'visualization.launch.py'])),
+            launch_arguments={
+                'rviz_config': LaunchConfiguration('rviz_config'),
+                'mapviz': LaunchConfiguration('mapviz')
+                }.items(),
+            condition=IfCondition(LaunchConfiguration('viz')))
+    ld.add_action(visualization_launch)
 
     return ld

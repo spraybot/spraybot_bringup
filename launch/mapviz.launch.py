@@ -18,12 +18,13 @@ def generate_launch_description():
             package='mapviz',
             executable='mapviz',
             name='mapviz',
+            output={'both': 'log'},
             parameters=[
                 {
                     'config': LaunchConfiguration('mapviz_config'),
                     'autosave': False
                 }
-            ]
+            ],
         ),
 
         Node(
