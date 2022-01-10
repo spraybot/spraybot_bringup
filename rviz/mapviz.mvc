@@ -111,7 +111,7 @@ displays:
     config:
       visible: true
       collapsed: true
-      topic: /imu/data
+      topic: /odometry/filtered
       x: 0
       y: 0
       width: 100
