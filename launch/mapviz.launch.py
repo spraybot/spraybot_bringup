@@ -28,12 +28,14 @@ def generate_launch_description():
         ),
 
         Node(
-            package='swri_transform_util',
+            package='mapviz',
             executable='initialize_origin.py',
             name='initialize_origin',
             parameters=[
                 {'local_xy_frame': 'map'},
-                {'local_xy_origin': 'pitt'},
+                {'local_xy_navsatfix_topic': '/gps/fix'},
+                {'local_xy_origin': 'auto'},
+
                 {'local_xy_origins': """[
                     {'name': 'pitt',
                         'latitude': 40.438889608527084,
