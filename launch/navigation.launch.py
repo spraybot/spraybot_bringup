@@ -66,6 +66,7 @@ def generate_launch_description():
             package='nav2_controller',
             executable='controller_server',
             output='screen',
+            remappings=[('odom', 'odometry/filtered')],
             parameters=[configured_params]),
 
         # Node(
@@ -94,6 +95,7 @@ def generate_launch_description():
             executable='bt_navigator',
             name='bt_navigator',
             output='screen',
+            remappings=[('odom', 'odometry/filtered')],
             parameters=[configured_params]),
 
         Node(
