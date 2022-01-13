@@ -49,10 +49,31 @@ displays:
       visible: true
       collapsed: true
       topic: /gps/fix
-      color: "#ff1900"
+      color: "#fce94f"
       draw_style: points
-      position_tolerance: 0
-      buffer_size: 1
+      position_tolerance: 0.5
+      buffer_size: 0
+  - type: mapviz_plugins/measuring
+    name: new display
+    config:
+      visible: false
+      collapsed: true
+      main_color: "#000000"
+      bkgnd_color: "#ffffff"
+      show_bkgnd_color: true
+      show_measurements: true
+      font_size: 10
+      alpha: 0.5
+  - type: mapviz_plugins/navsat
+    name: new display
+    config:
+      visible: true
+      collapsed: true
+      topic: /gps/fix/raw
+      color: "#ef2929"
+      draw_style: points
+      position_tolerance: 0.5
+      buffer_size: 0
   - type: mapviz_plugins/tf_frame
     name: Current Pose
     config:
@@ -70,16 +91,16 @@ displays:
     config:
       visible: true
       collapsed: true
-      topic: /odometry/filtered_map
-      color: "#00ff00"
+      topic: /odometry/filtered
+      color: "#8ae234"
       draw_style: points
       position_tolerance: 0.5
       buffer_size: 0
       show_laps: false
-      show_covariance: true
+      show_covariance: false
       show_all_covariances: false
       static_arrow_sizes: false
-      arrow_size: 42
+      arrow_size: 33
       show_timestamps: 0
   - type: mapviz_plugins/path
     name: Global Path
@@ -88,6 +109,17 @@ displays:
       collapsed: true
       topic: /plan
       color: "#00ff00"
+  - type: mapviz_plugins/measuring
+    name: new display
+    config:
+      visible: false
+      collapsed: true
+      main_color: "#000000"
+      bkgnd_color: "#ffffff"
+      show_bkgnd_color: true
+      show_measurements: true
+      font_size: 10
+      alpha: 0.5
   - type: mapviz_plugins/point_click_publisher
     name: Publish Goal
     config:
@@ -95,17 +127,6 @@ displays:
       collapsed: true
       topic: clicked_point
       output_frame: map
-  - type: mapviz_plugins/measuring
-    name: Measure
-    config:
-      visible: false
-      collapsed: true
-      main_color: "#ffffff"
-      bkgnd_color: "#000000"
-      show_bkgnd_color: true
-      show_measurements: true
-      font_size: 10
-      alpha: 0.5
   - type: mapviz_plugins/attitude_indicator
     name: Attitude
     config:
