@@ -5,35 +5,35 @@ ekf_node_odom:
     base_link_frame: base_link
     world_frame: odom
     publish_tf: true
-    two_d_mode: true
+    two_d_mode: false
     use_sim_time: true
     frequency: 30.0
     sensor_timeout: 0.1
 
-    predict_to_current_time: true # https://answers.ros.org/question/372501/robot-localization-time-stamps/
+    # predict_to_current_time: true # https://answers.ros.org/question/372501/robot-localization-time-stamps/
     print_diagnostics: true
 
-    # If set to true and ros::Time::isSimTime() is true, the filter will reset to its 
-    # uninitialized state when a jump back in time is detected on a topic. This is useful 
-    # when working with bag data, in that the bag can be restarted without restarting the node.
-    reset_on_time_jump: false 
-    # If any of your sensors produce data with timestamps that are older than the most recent filter update, 
-    # setting this parameter to true will enable the filter, upon reception of lagged data, to revert 
-    # to the last state prior to the lagged measurement, then process all measurements until the current time.
-    smooth_lagged_data: false
-    # If smooth_lagged_data is set to true, this parameter specifies the number of seconds for which the filter 
-    # will retain its state and measurement history. 
-    history_length: 0.0
+    # # If set to true and ros::Time::isSimTime() is true, the filter will reset to its 
+    # # uninitialized state when a jump back in time is detected on a topic. This is useful 
+    # # when working with bag data, in that the bag can be restarted without restarting the node.
+    # reset_on_time_jump: false 
+    # # If any of your sensors produce data with timestamps that are older than the most recent filter update, 
+    # # setting this parameter to true will enable the filter, upon reception of lagged data, to revert 
+    # # to the last state prior to the lagged measurement, then process all measurements until the current time.
+    # smooth_lagged_data: false
+    # # If smooth_lagged_data is set to true, this parameter specifies the number of seconds for which the filter 
+    # # will retain its state and measurement history. 
+    # history_length: 0.0
 
-    permit_corrected_publication: false
-    publish_acceleration: false
-    gravitational_acceleration: 9.80665
-    transform_time_offset: 0.0
-    transform_timeout: 0.0
-    dynamic_process_noise_covariance: false
-    disabled_at_startup: false
-    debug: false
-    debug_out_file: /path/to/debug/file.txt
+    # permit_corrected_publication: false
+    # publish_acceleration: false
+    # gravitational_acceleration: 9.80665
+    # transform_time_offset: 0.0
+    # transform_timeout: 0.0
+    # dynamic_process_noise_covariance: false
+    # disabled_at_startup: false
+    # debug: false
+    # debug_out_file: /path/to/debug/file.txt
 
     # Sensors
     odom0: odom
@@ -42,9 +42,9 @@ ekf_node_odom:
                   true, true, true,
                   false, false, true,
                   false, false, false]
+    odom0_nodelay: true
     odom0_differential: false
     odom0_relative: false
-    odom0_nodelay: true
     odom0_queue_size: 10
 
     imu0: imu/data
@@ -53,50 +53,51 @@ ekf_node_odom:
                   false, false, false,
                   true, true, true,
                   true, true, true]
+    imu0_nodelay: true
     imu0_relative: false
     imu0_differential: false
     imu0_queue_size: 10
     imu0_remove_gravitational_acceleration: true
 
 
-    process_noise_covariance: [0.05, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                0.0,    0.05, 0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                0.0,    0.0,    0.06, 0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                0.0,    0.0,    0.0,    0.03, 0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                0.0,    0.0,    0.0,    0.0,    0.03, 0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                0.0,    0.0,    0.0,    0.0,    0.0,    0.06, 0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.025, 0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.025, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.04, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.01, 0.0,    0.0,    0.0,    0.0,    0.0,
-                                0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.01, 0.0,    0.0,    0.0,    0.0,
-                                0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.02, 0.0,    0.0,    0.0,
-                                0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.01, 0.0,    0.0,
-                                0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.01, 0.0,
-                                0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.015]
+    process_noise_covariance: [1e-3, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    1e-3,  0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    1e-3,  0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.3,   0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.3,   0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.01,  0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.5,    0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.5,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.1,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.3,   0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.3,   0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.3,   0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.3,   0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.3,   0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3]
 
     initial_estimate_covariance: [1e-9, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
                                   0.0,    1e-9, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
                                   0.0,    0.0,    1e-9, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
-                                  0.0,    0.0,    0.0,    1e-9, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
-                                  0.0,    0.0,    0.0,    0.0,    1e-9, 0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    1.0,  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    1.0,  0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
                                   0.0,    0.0,    0.0,    0.0,    0.0,    1e-9, 0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
-                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1e-9, 0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
-                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1e-9, 0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
-                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1e-9, 0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
-                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1e-9,  0.0,     0.0,     0.0,    0.0,    0.0,
-                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     1e-9,  0.0,     0.0,    0.0,    0.0,
-                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     1e-9,  0.0,    0.0,    0.0,
-                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     1e-9, 0.0,    0.0,
-                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    1e-9, 0.0,
-                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    1e-9]
-
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1.0,  0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1.0,  0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1.0,  0.0,      0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1.0,    0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     1.0,    0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     1.0,    0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     1.0,   0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    1.0,  0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    1.0]
 ekf_node_map:
   ros__parameters:
     frequency: 30.0
     sensor_timeout: 0.1
     use_sim_time: true
     two_d_mode: false
+    publish_tf: true
     transform_time_offset: 0.0
     transform_timeout: 0.0
     print_diagnostics: true
@@ -139,7 +140,7 @@ ekf_node_map:
     imu0_differential: false
     imu0_relative: false
     imu0_queue_size: 10
-    imu0_remove_gravitational_acceleration: true
+    imu0_remove_gravitational_acceleration: true # TODO: Disable after VectorNav published accel values without gravity
 
     process_noise_covariance: [1.0,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
                               0.0,    1.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
@@ -175,12 +176,12 @@ ekf_node_map:
 
 navsat_transform:
   ros__parameters:
-    frequency: 30.0
+    frequency: 30.0 # TODO: Look into running at higher rates i.e 50HZ (Current output rate of VectorNav)
     use_sim_time: true
-    delay: 5.0 # TODO: Make it smaller if possible, allowing everything launch first
-    magnetic_declination_radians: -0.161843334  # For lat/long 40.43889, -79.95833
-    yaw_offset: 0.0 # IMU reads 0 facing magnetic north, not east TODO: Check offset for VectorNav
-    zero_altitude: false
+    delay: 5.0 # TODO: Set to value which allows GPS sufficient time to get a good fix
+    magnetic_declination_radians: 0.0
+    yaw_offset: 0.0 
+    zero_altitude: true # TODO: Look into enabling if needed once EKF paramas are stable
     broadcast_utm_transform: true
     publish_filtered_gps: true
     use_odometry_yaw: false
