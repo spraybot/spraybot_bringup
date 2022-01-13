@@ -77,7 +77,7 @@ controller_server:
       yaw_goal_tolerance: 0.524
     # RPP parameters
     FollowPath:
-      allow_reversing: false
+      allow_reversing: True
       cost_scaling_dist: 0.6
       cost_scaling_gain: 1.0
       desired_linear_vel: 1.0
@@ -95,12 +95,12 @@ controller_server:
       rotate_to_heading_angular_vel: 1.8
       rotate_to_heading_min_angle: 0.785
       transform_tolerance: 0.1
-      use_approach_linear_velocity_scaling: true
-      use_cost_regulated_linear_velocity_scaling: false
-      use_regulated_linear_velocity_scaling: false
-      use_rotate_to_heading: true
-      use_velocity_scaled_lookahead_dist: false
-      
+      use_approach_linear_velocity_scaling: True
+      use_cost_regulated_linear_velocity_scaling: False
+      use_regulated_linear_velocity_scaling: False
+      use_rotate_to_heading: True
+      use_velocity_scaled_lookahead_dist: False
+
 controller_server_rclcpp_node:
   ros__parameters:
     use_sim_time: True
@@ -113,35 +113,32 @@ local_costmap:
       global_frame: odom
       robot_base_frame: base_link
       use_sim_time: True
-      rolling_window: true
-      width: 3
-      height: 3
-      resolution: 0.05
-      robot_radius: 0.22
-      plugins: ["voxel_layer", "inflation_layer"]
+      rolling_window: True
+      width: 35
+      height: 35
+      resolution: 0.025
+      footprint: "[[-0.5, -0.33], [-0.5, 0.33], [0.5, 0.33], [0.5, -0.33]]"
+      footprint_padding: 0.01
+      plugins: ["obstacle_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
         inflation_radius: 0.55
-      voxel_layer:
-        plugin: "nav2_costmap_2d::VoxelLayer"
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
-        publish_voxel_map: True
-        origin_z: 0.0
-        z_resolution: 0.05
-        z_voxels: 16
-        max_obstacle_height: 2.0
+        max_obstacle_height: 3.0
         mark_threshold: 0
         observation_sources: scan
         scan:
-          topic: /scan
-          max_obstacle_height: 2.0
+          topic: /filtered_cloud
+          max_obstacle_height: 3.0
           clearing: True
           marking: True
-          data_type: "LaserScan"
-          raytrace_max_range: 3.0
+          data_type: "PointCloud2"
+          raytrace_max_range: 6.0
           raytrace_min_range: 0.0
-          obstacle_max_range: 2.5
+          obstacle_max_range: 5.5
           obstacle_min_range: 0.0
       static_layer:
         map_subscribe_transient_local: True
@@ -161,7 +158,9 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: True
-      robot_radius: 0.22
+      rolling_window: False
+      footprint: "[[-0.5, -0.33], [-0.5, 0.33], [0.5, 0.33], [0.5, -0.33]]"
+      footprint_padding: 0.01
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
@@ -170,22 +169,22 @@ global_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /scan
-          max_obstacle_height: 2.0
-          clearing: True
+          topic: /filtered_cloud
+          max_obstacle_height: 100.0
+          clearing: False
           marking: True
-          data_type: "LaserScan"
-          raytrace_max_range: 3.0
+          data_type: "PointCloud2"
+          raytrace_max_range: 15.0
           raytrace_min_range: 0.0
-          obstacle_max_range: 2.5
+          obstacle_max_range: 20.0
           obstacle_min_range: 0.0
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        cost_scaling_factor: 2.0
+        inflation_radius: 1.0
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -231,7 +230,7 @@ recoveries_server:
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
-    recovery_plugins: ["spin", "backup", "wait"]
+    recovery_plugins: ["wait", "backup", "spin"]
     spin:
       plugin: "nav2_recoveries/Spin"
     backup:
