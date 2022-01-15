@@ -46,7 +46,7 @@ displays:
       rows: 1000
       columns: 1000
   - type: mapviz_plugins/navsat
-    name: GPS Location
+    name: INS Location
     config:
       visible: true
       collapsed: true
@@ -57,19 +57,8 @@ displays:
       buffer_size: 0
       show_covariance: true
       show_all_covariances: false
-  - type: mapviz_plugins/measuring
-    name: new display
-    config:
-      visible: false
-      collapsed: true
-      main_color: "#000000"
-      bkgnd_color: "#ffffff"
-      show_bkgnd_color: true
-      show_measurements: true
-      font_size: 10
-      alpha: 0.5
   - type: mapviz_plugins/navsat
-    name: new display
+    name: GPS Raw Location
     config:
       visible: true
       collapsed: true
@@ -143,13 +132,3 @@ displays:
       units: pixels
       offset_x: 0
       offset_y: 0
-  - type: mapviz_plugins/attitude_indicator
-    name: Attitude
-    config:
-      visible: true
-      collapsed: true
-      topic: /odometry/filtered
-      x: 1411
-      y: -3
-      width: 100
-      height: 100

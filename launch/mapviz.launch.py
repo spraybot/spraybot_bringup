@@ -44,5 +44,11 @@ def generate_launch_description():
                         'heading': 0.0}
                 ]"""}
             ]
+        ),
+
+        Node(
+            package='spraybot_utils',
+            executable='vectornav_html_status.py',
+            name='vectornav_html_status',
         )
     ])
