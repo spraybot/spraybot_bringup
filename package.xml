@@ -9,20 +9,21 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>controller_manager</depend>
-  <depend>gazebo_ros</depend>
-  <depend>husky_control</depend>
-  <depend>husky_description</depend>
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>husky_control</exec_depend>
+  <exec_depend>husky_description</exec_depend>
   <!-- TODO: Fix CI dependency issues -->
   <!-- Commented out for CI dependency purposes
-  <depend>spraybot_behavior_tree</depend>
-  <depend>spraybot_simulation</depend> -->
+  <exec_depend>spraybot_behavior_tree</exec_depend>
+  <exec_depend>spraybot_simulation</exec_depend>
+  <exec_depend>spraybot_utils</exec_depend> -->
   <!-- Commented out for CI, since currently
     its not available on apt
-  <depend>mapviz</depend> -->
-  <depend>navigation2</depend>
-  <depend>robot_localization</depend>
-  <depend>robot_state_publisher</depend>
+  <exec_depend>mapviz</exec_depend> -->
+  <exec_depend>navigation2</exec_depend>
+  <exec_depend>robot_localization</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
