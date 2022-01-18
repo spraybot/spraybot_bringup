@@ -178,7 +178,7 @@ navsat_transform:
   ros__parameters:
     frequency: 30.0 # TODO: Look into running at higher rates i.e 50HZ (Current output rate of VectorNav)
     use_sim_time: true
-    delay: 5.0 # TODO: Set to value which allows GPS sufficient time to get a good fix
+    delay: 5.0 # Allow VectorNav to startup and the datum to be set
     magnetic_declination_radians: 0.0
     yaw_offset: 0.0 
     zero_altitude: true # TODO: Look into enabling if needed once EKF paramas are stable
