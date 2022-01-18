@@ -86,8 +86,24 @@ displays:
     config:
       visible: true
       collapsed: true
-      topic: /odometry/filtered
+      topic: /odometry/filtered_map
       color: "#8ae234"
+      draw_style: points
+      position_tolerance: 0.5
+      buffer_size: 0
+      show_laps: false
+      show_covariance: true
+      show_all_covariances: false
+      static_arrow_sizes: false
+      arrow_size: 33
+      show_timestamps: 0
+  - type: mapviz_plugins/odometry
+    name: Odom
+    config:
+      visible: true
+      collapsed: true
+      topic: /odometry/filtered
+      color: "#75507b"
       draw_style: points
       position_tolerance: 0.5
       buffer_size: 0
@@ -95,7 +111,7 @@ displays:
       show_covariance: false
       show_all_covariances: false
       static_arrow_sizes: false
-      arrow_size: 33
+      arrow_size: 28
       show_timestamps: 0
   - type: mapviz_plugins/path
     name: Global Path

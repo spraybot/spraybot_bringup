@@ -53,7 +53,7 @@ def generate_launch_description():
             parameters=[configured_params],
             remappings=[('odometry/filtered', 'odometry/filtered_map'),
                         ('imu', 'imu/data')]),
-        
+
         # Sets the GPS origin
         Node(
             package='spraybot_utils',
