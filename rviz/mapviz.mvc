@@ -121,7 +121,7 @@ displays:
       topic: /plan
       color: "#00ff00"
   - type: mapviz_plugins/measuring
-    name: new display
+    name: Measure
     config:
       visible: false
       collapsed: true
@@ -131,13 +131,11 @@ displays:
       show_measurements: true
       font_size: 10
       alpha: 0.5
-  - type: mapviz_plugins/point_click_publisher
-    name: Publish Goal
+  - type: mapviz_plugins/nav2
+    name: Nav2
     config:
-      visible: false
+      visible: true
       collapsed: true
-      topic: clicked_point
-      output_frame: map
   - type: mapviz_plugins/html
     name: INS Status
     config:
