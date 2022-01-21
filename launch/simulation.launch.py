@@ -14,6 +14,7 @@ def generate_launch_description():
     current_pkg = FindPackageShare('spraybot_bringup')
     spraybot_simulation_pkg = FindPackageShare('spraybot_simulation')
     husky_control_pkg = FindPackageShare('husky_control')
+    gazebo_ros_pkg = FindPackageShare('gazebo_ros')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
 
@@ -108,15 +109,23 @@ def generate_launch_description():
     ld.add_action(diffdrive_controller_spawn_callback)
 
     # Gazebo server
-    gzserver = ExecuteProcess(
-        cmd=['gzserver',
-             '-s', 'libgazebo_ros_init.so',
-             '-s', 'libgazebo_ros_factory.so',
-             '--verbose',
-             LaunchConfiguration('world_path')],
-        output='screen',
-    )
-    ld.add_action(gzserver)
+    gzserver_launch = GroupAction([
+    IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([gazebo_ros_pkg, 'launch', 'gzserver.launch.py'])),
+        launch_arguments={
+            'world': LaunchConfiguration('world_path'),
+            'verbose': 'true',
+            'server_required': 'true',
+            'minimal_comms': 'true', # Disable if causes issues
+            'extra_gazebo_args': [
+                '--ros-args --params-file ',
+                PathJoinSubstitution([current_pkg, 'params', 'gazebo.yaml'])
+            ]
+            }.items()
+        )
+    ])
+    ld.add_action(gzserver_launch)
 
     # Gazebo client
     gzclient = ExecuteProcess(
