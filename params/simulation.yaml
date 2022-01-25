@@ -1,0 +1,12 @@
+ekf_node_odom:
+  ros__parameters:
+    use_sim_time: true
+    imu0_remove_gravitational_acceleration: true
+ekf_node_map:
+  ros__parameters:
+    use_sim_time: true
+    imu0_remove_gravitational_acceleration: true
+
+navsat_transform:
+  ros__parameters:
+    use_sim_time: true

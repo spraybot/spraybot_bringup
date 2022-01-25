@@ -110,18 +110,18 @@ def generate_launch_description():
 
     # Gazebo server
     gzserver_launch = GroupAction([
-    IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([gazebo_ros_pkg, 'launch', 'gzserver.launch.py'])),
-        launch_arguments={
-            'world': LaunchConfiguration('world_path'),
-            'verbose': 'true',
-            'server_required': 'true',
-            'minimal_comms': 'true', # Disable if causes issues
-            'extra_gazebo_args': [
-                '--ros-args --params-file ',
-                PathJoinSubstitution([current_pkg, 'params', 'gazebo.yaml'])
-            ]
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                PathJoinSubstitution([gazebo_ros_pkg, 'launch', 'gzserver.launch.py'])),
+            launch_arguments={
+                'world': LaunchConfiguration('world_path'),
+                'verbose': 'true',
+                'server_required': 'true',
+                'minimal_comms': 'true',  # Disable if causes issues
+                'extra_gazebo_args': [
+                    '--ros-args --params-file ',
+                    PathJoinSubstitution([current_pkg, 'params', 'gazebo.yaml'])
+                ]
             }.items()
         )
     ])
@@ -159,7 +159,10 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 PathJoinSubstitution([current_pkg, 'launch', 'localization.launch.py'])),
-            launch_arguments={'use_sim_time': use_sim_time}.items())
+            launch_arguments={
+                'use_sim_time': use_sim_time,
+                'sim_params_file': PathJoinSubstitution([current_pkg, 'params', 'simulation.yaml'])
+                }.items())
         ])
     ld.add_action(localization_launch)
 

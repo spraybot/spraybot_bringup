@@ -12,13 +12,17 @@ def generate_launch_description():
     # Create temporary YAML files that include substitutions
     param_substitutions = {
         'use_sim_time': LaunchConfiguration('use_sim_time')
-        }
+    }
 
-    configured_params = RewrittenYaml(
+    configured_params = [
+        RewrittenYaml(
             source_file=LaunchConfiguration('params_file'),
             root_key='',
             param_rewrites=param_substitutions,
-            convert_types=True)
+            convert_types=True
+        ),
+        LaunchConfiguration('sim_params_file')
+    ]
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -30,19 +34,27 @@ def generate_launch_description():
                 default_value=PathJoinSubstitution([current_pkg, 'params', 'localization.yaml']),
                 description='Full path to the ROS2 parameters file to use'),
 
+        # TODO: Add ability to have conditional parmaeters. Will require an upstream PR
+        # to ros2/launch. Current, method is pretty hacky and if no sim_params_file is
+        # specified still works but a throws warning regarding parameters file is not valid
+        DeclareLaunchArgument(
+                'sim_params_file',
+                default_value='',
+                description='Full path to the ROS2 simulation parameters file to use'),
+
         Node(
             package='robot_localization',
             executable='ekf_node',
             name='ekf_node_odom',
             output='screen',
-            parameters=[configured_params]),
+            parameters=configured_params),
 
         Node(
             package='robot_localization',
             executable='ekf_node',
             name='ekf_node_map',
             output='screen',
-            parameters=[configured_params],
+            parameters=configured_params,
             remappings=[('odometry/filtered', 'odometry/filtered_map')]),
 
         Node(
@@ -50,7 +62,7 @@ def generate_launch_description():
             executable='navsat_transform_node',
             name='navsat_transform',
             output='screen',
-            parameters=[configured_params],
+            parameters=configured_params,
             remappings=[('odometry/filtered', 'odometry/filtered_map'),
                         ('imu', 'imu/data')]),
 
