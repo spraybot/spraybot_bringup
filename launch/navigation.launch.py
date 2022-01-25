@@ -29,7 +29,7 @@ def generate_launch_description():
         'yaml_filename': map_yaml_file,
         'default_nav_through_poses_bt_xml': PathJoinSubstitution(
             [spraybot_bt_pkg, 'behavior_trees', 'spraybot_gps_planning.xml'])
-        }
+    }
 
     configured_params = RewrittenYaml(
             source_file=LaunchConfiguration('params_file'),
@@ -44,8 +44,10 @@ def generate_launch_description():
         # Set env var to print messages to stdout immediately
         SetEnvironmentVariable('RCUTILS_LOGGING_BUFFERED_STREAM', '1'),
 
+        # TODO: Make `use_sim_time` false by default, once we integrate the navigation launch
+        # file into sim and start testing navigation on the physical robot
         DeclareLaunchArgument(
-            'use_sim_time', default_value='false',
+            'use_sim_time', default_value='true',
             description='Use simulation (Gazebo) clock if true'),
 
         DeclareLaunchArgument(
