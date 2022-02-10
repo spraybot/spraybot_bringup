@@ -40,6 +40,21 @@ def generate_launch_description():
         convert_types=True,
     )
 
+    # Include other launch files
+    base_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([husky_base_pkg, 'launch', 'base_launch.py'])
+        )
+    )
+    ld.add_action(base_launch)
+
+    teleop_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([husky_control_pkg, 'launch', 'teleop_launch.py'])
+        )
+    )
+    ld.add_action(teleop_launch)
+
     vectornav_node = LifecycleNode(
         package='vectornav',
         executable='vectornav',
@@ -87,20 +102,5 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('sensors')),
     )
     ld.add_action(lifecycle_manager_sensors)
-
-    # Include other launch files
-    base_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([husky_base_pkg, 'launch', 'base_launch.py'])
-        )
-    )
-    ld.add_action(base_launch)
-
-    teleop_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([husky_control_pkg, 'launch', 'teleop_launch.py'])
-        )
-    )
-    ld.add_action(teleop_launch)
 
     return ld
