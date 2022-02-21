@@ -108,6 +108,18 @@ def generate_launch_description():
     )
     ld.add_action(diffdrive_controller_spawn_callback)
 
+    # Waypoint teleop
+    node_waypoint_teleop = Node(
+        package='spraybot_utils',
+        executable='waypoint_teleop.py',
+        output='screen',
+        parameters=[{
+            'waypoint_topic': '/goal_pose',
+            'axis_scaling_factor': 0.25
+        }],
+    )
+    ld.add_action(node_waypoint_teleop)
+
     # Gazebo server
     gzserver_launch = GroupAction([
         IncludeLaunchDescription(
