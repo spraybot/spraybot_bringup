@@ -155,7 +155,8 @@ def generate_launch_description():
         arguments=['-entity',
                    'husky',
                    '-topic',
-                   'robot_description'],
+                   'robot_description',
+                   '-x', '0.0', '-y', '0.0', '-Y', '3.14'],
         output='screen',
     )
     ld.add_action(spawn_robot)
