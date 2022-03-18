@@ -10,8 +10,8 @@ bt_navigator:
     # nav2_bt_navigator/navigate_to_pose_w_replanning_and_recovery.xml
     # nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml
     # They can be set here or via a RewrittenYaml remap from a parent launch file
-    # Spraybot BT Trees: spraybot_gps_planning.xml, spraybot_planning.xml
-    default_nav_through_poses_bt_xml: spraybot_gps_planning.xml
+    # Spraybot BT Trees: spraybot_gps_planning.xml, spraybot_planning.xml, spraybot_dynamic_following.xml
+    default_nav_through_poses_bt_xml: spraybot_dynamic_following.xml
     plugin_lib_names:
     - nav2_compute_path_to_pose_action_bt_node
     - nav2_compute_path_through_poses_action_bt_node
@@ -91,7 +91,7 @@ controller_server:
       desired_linear_vel: 0.5
       lookahead_dist: 0.6
       min_approach_linear_velocity: 0.05
-      max_allowed_time_to_collision_up_to_carrot: 0.1 # 1.0
+      max_allowed_time_to_collision_up_to_carrot: 0.025 # 1.0
      
       # Velocity and lookahead scaling params
       use_velocity_scaled_lookahead_dist: false
@@ -125,7 +125,7 @@ local_costmap:
       rolling_window: True
       width: 35
       height: 35
-      resolution: 0.025
+      resolution: 0.01
       footprint: "[[-0.5, -0.33], [-0.5, 0.33], [0.5, 0.33], [0.5, -0.33]]"
       footprint_padding: 0.01
       plugins: ["voxel_layer", "inflation_layer"]
@@ -322,10 +322,12 @@ planner_server:
     use_sim_time: True
     planner_plugins: ["GridBased"]
     GridBased:
-      plugin: "nav2_navfn_planner/NavfnPlanner"
-      tolerance: 0.5
-      use_astar: true
-      allow_unknown: true
+      plugin: "nav2_straightline_planner/StraightLine"
+    # GridBased:
+    #   plugin: "nav2_navfn_planner/NavfnPlanner"
+    #   tolerance: 0.5
+    #   use_astar: true
+    #   allow_unknown: true
 
 planner_server_rclcpp_node:
   ros__parameters:
