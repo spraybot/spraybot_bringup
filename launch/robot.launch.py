@@ -13,8 +13,8 @@ def generate_launch_description():
     # Declare the launch arguments
     declare_enable_drivers = DeclareLaunchArgument(
         'drivers',
-        default_value='false',
-        description='Start Husky VectorNav and Ouster nodes')
+        default_value='true',
+        description='Start Husky, VectorNav and Ouster nodes')
     ld.add_action(declare_enable_drivers)
 
     declare_enable_visualization = DeclareLaunchArgument(
