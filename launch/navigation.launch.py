@@ -44,10 +44,10 @@ def generate_launch_description():
         # Set env var to print messages to stdout immediately
         SetEnvironmentVariable('RCUTILS_LOGGING_BUFFERED_STREAM', '1'),
 
-        # TODO: Make `use_sim_time` false by default, once we integrate the navigation launch
-        # file into sim and start testing navigation on the physical robot
+        # TODO: Make `use_sim_time` needs to be explicilty set to true for sim,
+        # until  we integrate the navigation launch file into sim
         DeclareLaunchArgument(
-            'use_sim_time', default_value='true',
+            'use_sim_time', default_value='false',
             description='Use simulation (Gazebo) clock if true'),
 
         DeclareLaunchArgument(
