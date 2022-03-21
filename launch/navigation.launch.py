@@ -14,13 +14,12 @@ def generate_launch_description():
     autostart = LaunchConfiguration('autostart')
     map_yaml_file = LaunchConfiguration('map')
 
-    lifecycle_nodes_navigation = ['controller_server',
+    lifecycle_nodes_navigation = ['map_server',
+                                  'controller_server',
                                   'planner_server',
                                   'recoveries_server',
                                   'bt_navigator',
                                   'waypoint_follower']
-
-    lifecycle_nodes_localization = ['map_server']
 
     # Create temporary YAML files that include substitutions
     param_substitutions = {
@@ -64,6 +63,20 @@ def generate_launch_description():
             default_value=PathJoinSubstitution([current_pkg, 'params', 'navigation.yaml']),
             description='Full path to the ROS2 parameters file to use'),
 
+        Node(
+            package='pcl_processor',
+            executable='processor_xyz',
+            name='navigation_processor_xyz',
+            output='screen',
+            parameters=[configured_params]),
+
+        Node(
+            package='nav2_map_server',
+            executable='map_server',
+            name='map_server',
+            output='screen',
+            parameters=[configured_params]),
+            
         Node(
             package='nav2_controller',
             executable='controller_server',
@@ -115,21 +128,5 @@ def generate_launch_description():
             parameters=[{'use_sim_time': use_sim_time},
                         {'autostart': autostart},
                         {'node_names': lifecycle_nodes_navigation}]),
-
-        Node(
-            package='nav2_map_server',
-            executable='map_server',
-            name='map_server',
-            output='screen',
-            parameters=[configured_params]),
-
-        Node(
-            package='nav2_lifecycle_manager',
-            executable='lifecycle_manager',
-            name='lifecycle_manager_localization',
-            output='screen',
-            parameters=[{'use_sim_time': use_sim_time},
-                        {'autostart': autostart},
-                        {'node_names': lifecycle_nodes_localization}])
 
     ])

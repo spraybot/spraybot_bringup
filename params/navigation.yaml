@@ -150,7 +150,7 @@ local_costmap:
         observation_sources:      rgbd1_mark rgbd1_clear
         rgbd1_mark:
           data_type: PointCloud2
-          topic: /points
+          topic: /navigation_processor_xyz/filtered_points
           marking: true
           clearing: false
           obstacle_range: 15.0          # meters
@@ -164,7 +164,7 @@ local_costmap:
         rgbd1_clear:
           enabled: true                #default true, can be toggled on/off with associated service call
           data_type: PointCloud2
-          topic: /points
+          topic: /navigation_processor_xyz/filtered_points
           marking: false
           clearing: true
           max_z: 8.0                  # default 0, meters
@@ -245,7 +245,7 @@ global_costmap:
         observation_sources:      rgbd1_mark rgbd1_clear
         rgbd1_mark:
           data_type: PointCloud2
-          topic: /points
+          topic: /navigation_processor_xyz/filtered_points
           marking: true
           clearing: false
           obstacle_range: 15.0          # meters
@@ -259,7 +259,7 @@ global_costmap:
         rgbd1_clear:
           enabled: true                #default true, can be toggled on/off with associated service call
           data_type: PointCloud2
-          topic: /points
+          topic: /navigation_processor_xyz/filtered_points
           marking: false
           clearing: true
           max_z: 8.0                  # default 0, meters
@@ -371,3 +371,41 @@ waypoint_follower:
       plugin: "nav2_waypoint_follower::WaitAtWaypoint"
       enabled: True
       waypoint_pause_duration: 200
+
+navigation_processor_xyz:
+  ros__parameters:
+    use_sim_time: true
+    processor_plugins: [
+        "crop_box",
+        "voxel_grid",
+        "robot_crop_box",
+        "ground_plane_fitting",
+      ]
+
+    crop_box:
+      plugin: "pcl_processor::CropBox"
+      min: [-25.0, -25.0, -10.0]
+      max: [25.0, 25.0, 10.0]
+      negative: false
+
+    voxel_grid:
+      plugin: "pcl_processor::VoxelGrid"
+      leaf_size: [0.1, 0.1, 0.1]
+      downsample_all_data: true
+      min_points_per_voxel: 0
+      save_leaf_layout: false
+
+    # Remove points on robot
+    robot_crop_box:
+      plugin: "pcl_processor::CropBox"
+      min: [-0.9, -0.35, -1.0]
+      max: [0.15, 0.35, 1.0]
+      negative: true
+
+    ground_plane_fitting:
+      plugin: "pcl_processor::GroundPlaneFitting"
+      num_iterations: 10
+      num_lpr: 20
+      initial_seeds_threshold: 1.0
+      plane_dist_threshold: 0.25
+      negative: true
