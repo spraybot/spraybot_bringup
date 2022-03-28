@@ -7,6 +7,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from nav2_common.launch import RewrittenYaml
 
 
 def generate_launch_description():
@@ -50,9 +51,12 @@ def generate_launch_description():
 
     # prefix = LaunchConfiguration('prefix')
 
-    config_husky_velocity_controller = PathJoinSubstitution(
-        [FindPackageShare('husky_control'), 'config', 'control.yaml']
-    )
+    config_husky_velocity_controller = RewrittenYaml(
+            source_file=PathJoinSubstitution([FindPackageShare('husky_control'), 'config', 'control.yaml']),
+            root_key='',
+            param_rewrites={
+              'use_sim_time': use_sim_time,  
+            })
 
     # Get URDF via xacro
     robot_description_content = Command(
