@@ -14,12 +14,13 @@ def generate_launch_description():
     autostart = LaunchConfiguration('autostart')
     map_yaml_file = LaunchConfiguration('map')
 
-    lifecycle_nodes_navigation = ['map_server',
+    lifecycle_nodes_navigation = [
                                   'controller_server',
                                   'planner_server',
                                   'recoveries_server',
                                   'bt_navigator',
-                                  'waypoint_follower']
+                                  'waypoint_follower',
+                                  'map_server']
 
     # Create temporary YAML files that include substitutions
     param_substitutions = {
@@ -27,7 +28,9 @@ def generate_launch_description():
         'autostart': autostart,
         'yaml_filename': map_yaml_file,
         'default_nav_through_poses_bt_xml': PathJoinSubstitution(
-            [spraybot_bt_pkg, 'behavior_trees', 'spraybot_gps_planning.xml'])
+            [spraybot_bt_pkg, 'behavior_trees', 'spraybot_gps_planning.xml']),
+        # 'default_nav_to_pose_bt_xml': PathJoinSubstitution(
+        #     [spraybot_bt_pkg, 'behavior_trees', 'spraybot_dynamic_following.xml'])
     }
 
     configured_params = RewrittenYaml(
@@ -75,7 +78,10 @@ def generate_launch_description():
             executable='map_server',
             name='map_server',
             output='screen',
-            parameters=[configured_params]),
+            parameters=[configured_params,
+            {
+                'autostart': True
+            }]),
             
         Node(
             package='nav2_controller',
