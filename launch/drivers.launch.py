@@ -91,7 +91,7 @@ def generate_launch_description():
 
     # TODO: Create custom lifecycle manger with bond and auto-restart support
     lifecycle_manager_sensors = Node(
-        package='nav2_lifecycle_manager',
+        package='spraybot_lifecycle_manager',
         executable='lifecycle_manager',
         name='lifecycle_manager_sensors',
         output='screen',
