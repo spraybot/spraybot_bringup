@@ -29,8 +29,8 @@ def generate_launch_description():
         'yaml_filename': map_yaml_file,
         'default_nav_through_poses_bt_xml': PathJoinSubstitution(
             [spraybot_bt_pkg, 'behavior_trees', 'spraybot_gps_planning.xml']),
-        # 'default_nav_to_pose_bt_xml': PathJoinSubstitution(
-        #     [spraybot_bt_pkg, 'behavior_trees', 'spraybot_dynamic_following.xml'])
+        'default_nav_to_pose_bt_xml': PathJoinSubstitution(
+            [spraybot_bt_pkg, 'behavior_trees', 'spraybot_dynamic_following.xml'])
     }
 
     configured_params = RewrittenYaml(
@@ -63,15 +63,8 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'params_file',
-            default_value=PathJoinSubstitution([current_pkg, 'params', 'navigation.yaml']),
+            default_value=PathJoinSubstitution([current_pkg, 'params', 'row_navigation.yaml']),
             description='Full path to the ROS2 parameters file to use'),
-
-        Node(
-            package='pcl_processor',
-            executable='processor_xyz',
-            name='navigation_processor_xyz',
-            output='screen',
-            parameters=[configured_params]),
 
         Node(
             package='nav2_map_server',
