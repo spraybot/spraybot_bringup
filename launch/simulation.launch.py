@@ -183,10 +183,19 @@ def generate_launch_description():
         ])
     ld.add_action(localization_launch)
 
+    # behavior_launch = IncludeLaunchDescription(
+    #         PythonLaunchDescriptionSource(
+    #             PathJoinSubstitution([current_pkg, 'launch', 'behavior.launch.py'])),
+    #         launch_arguments={
+    #             'use_sim_time': use_sim_time
+    #             }.items())
+    # ld.add_action(behavior_launch)
+
     visualization_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 PathJoinSubstitution([current_pkg, 'launch', 'visualization.launch.py'])),
             launch_arguments={
+                'use_sim_time': use_sim_time,
                 'rviz_config': LaunchConfiguration('rviz_config'),
                 'mapviz': LaunchConfiguration('mapviz')
                 }.items(),
