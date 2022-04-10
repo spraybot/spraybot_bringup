@@ -1,0 +1,7 @@
+hypervisor:
+  ros__parameters:
+    use_sim_time: false
+
+hypervisor_rclcpp_node:
+  ros__parameters:
+    use_sim_time: false
