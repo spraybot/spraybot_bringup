@@ -2,14 +2,14 @@ row_detection:
   ros__parameters:
     use_sim_time: false
     autostart: false
-    y_max_threshold: 1.5       # y max threshold to include points in clustering
-    y_min_threshold: 0.5       # y min threshold to include points in clustering
-    x_threshold: 4.0       # x threshold to include points in clustering
-    use_weighting: false   # use trapezoid function to weight x value of points
-    alpha: 0.2             # alpha parameter for L1 Lasso regression
-    min_pts_row: 2      # min number of points in a row to consider line fitting
-    x_pred: 10.0        # x value to feed to predict line fit
-    desired_x: 1.5      # x value of desired goal pose 
+    y_max_threshold: 1.5 # y max threshold to include points in clustering
+    y_min_threshold: 0.5 # y min threshold to include points in clustering
+    x_threshold: 6.0 # x threshold to include points in clustering
+    use_weighting: False # use trapezoid function to weight x value of points
+    alpha: 0.2 # alpha parameter for L1 Lasso regression
+    min_pts_row: 2 # min number of points in a row to consider line fitting
+    x_pred: 10.0 # x value to feed to predict line fit
+    desired_x: 1.5 # x value of desired goal pose
     pose_pub_topic: "/goal_pose"
     cluster_sub_topic: "/row_detection_processor_xyz/euclidean_cluster_extraction/clusters"
     detection_status_topic: "/in_row_flag"
@@ -17,8 +17,8 @@ row_detection:
 row_exit_detection:
   ros__parameters:
     autostart: false
-    y_max_threshold: 2.5  # y max threshold to include points in clustering
-    x_threshold: 2.0  # x lookahead to include point in clustering
+    y_max_threshold: 2.5 # y max threshold to include points in clustering
+    x_threshold: 2.0 # x lookahead to include point in clustering
     cluster_sub_topic: "/row_detection_processor_xyz/euclidean_cluster_extraction/clusters"
     detection_status_topic: "/exit_status"
 
@@ -26,7 +26,8 @@ row_detection_processor_xyz:
   ros__parameters:
     use_sim_time: false
     input_topic: "/points"
-    processor_plugins: [
+    processor_plugins:
+      [
         "crop_box",
         "voxel_grid",
         "robot_crop_box",
@@ -37,8 +38,8 @@ row_detection_processor_xyz:
 
     crop_box:
       plugin: "pcl_processor::CropBox"
-      min: [-10.0, -10.0, -10.0]
-      max: [10.0, 10.0, 10.0]
+      min: [-10.0, -10.0, -1.5]
+      max: [10.0, 10.0, 1.5]
       negative: false
 
     voxel_grid:
@@ -59,7 +60,6 @@ row_detection_processor_xyz:
       plugin: "pcl_processor::RadiusOutlierRemoval"
       radius_search: 0.25
       min_points_per_voxel: 5
-      
 
     euclidean_cluster_extraction:
       plugin: "pcl_processor::EuclideanClusterExtraction"
