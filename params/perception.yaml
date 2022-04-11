@@ -17,7 +17,8 @@ row_detection:
 row_exit_detection:
   ros__parameters:
     autostart: false
-    y_max_threshold_exit: 2.5      # y max threshold to include points in clustering
+    y_max_threshold: 2.5  # y max threshold to include points in clustering
+    x_threshold: 2.0  # x lookahead to include point in clustering
     cluster_sub_topic: "/row_detection_processor_xyz/euclidean_cluster_extraction/clusters"
     detection_status_topic: "/exit_status"
 
