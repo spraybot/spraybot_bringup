@@ -1,10 +1,11 @@
 row_detection:
   ros__parameters:
     use_sim_time: false
+    autostart: false
     y_max_threshold: 1.5       # y max threshold to include points in clustering
     y_min_threshold: 0.5       # y min threshold to include points in clustering
     x_threshold: 4.0       # x threshold to include points in clustering
-    use_weighting: False   # use trapezoid function to weight x value of points
+    use_weighting: false   # use trapezoid function to weight x value of points
     alpha: 0.2             # alpha parameter for L1 Lasso regression
     min_pts_row: 2      # min number of points in a row to consider line fitting
     x_pred: 10.0        # x value to feed to predict line fit
@@ -15,6 +16,7 @@ row_detection:
 
 row_exit_detection:
   ros__parameters:
+    autostart: false
     y_max_threshold_exit: 2.5      # y max threshold to include points in clustering
     cluster_sub_topic: "/row_detection_processor_xyz/euclidean_cluster_extraction/clusters"
     detection_status_topic: "/exit_status"

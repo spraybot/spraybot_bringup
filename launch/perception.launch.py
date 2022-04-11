@@ -11,8 +11,6 @@ from nav2_common.launch import RewrittenYaml
 def generate_launch_description():
     ld = LaunchDescription()
     current_pkg = FindPackageShare('spraybot_bringup')
-    spraybot_row_detection_pkg = FindPackageShare('spraybot_row_detection')
-    spraybot_row_exit_detection_pkg = FindPackageShare('spraybot_exit_detection')
 
     lifecycle_nodes_sensors = ['row_detection', 'row_exit_detection']
 
