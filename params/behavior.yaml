@@ -1,6 +1,9 @@
 hypervisor:
   ros__parameters:
     use_sim_time: false
+    enable_groot_monitoring: true
+    groot_publisher_port: 1676
+    groot_server_port: 1677
 
 hypervisor_rclcpp_node:
   ros__parameters:
