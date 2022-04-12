@@ -12,7 +12,7 @@ def generate_launch_description():
     ld = LaunchDescription()
     current_pkg = FindPackageShare('spraybot_bringup')
 
-    lifecycle_nodes_sensors = ['row_detection', 'row_exit_detection']
+    lifecycle_nodes_sensors = ['row_detection', 'row_exit_detection', 'row_entrance_detection']
 
     # Declare the launch arguments
     declare_use_sim_time = DeclareLaunchArgument(
@@ -57,6 +57,16 @@ def generate_launch_description():
         parameters=[params],
     )
     ld.add_action(spraybot_row_detection_node)
+
+    spraybot_row_entrance_detection_node = LifecycleNode(
+        package='spraybot_entrance_detection',
+        executable='entrance_detection',
+        name='row_entrance_detection',
+        namespace='/',
+        output='screen',
+        parameters=[params],
+    )
+    ld.add_action(spraybot_row_entrance_detection_node)
 
     # TODO: Create custom lifecycle manger with bond and auto-restart support
     lifecycle_manager_perception = Node(
