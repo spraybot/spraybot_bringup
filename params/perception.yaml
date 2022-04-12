@@ -6,8 +6,8 @@ row_detection:
     y_min_threshold: 0.0         # y min threshold to include points in clustering
     x_threshold: 6.0             # abs x threshold to include points in clustering
     start_x_threshold: 8.0       # x threshold to include points in clustering initially
-    line_fit_threshold: 1.1      # distance threshold [m] to decide if bad line fit
-    rotation_range:  30          # deg
+    line_fit_threshold: 2.0      # distance threshold [m] to decide if bad line fit
+    rotation_range:  15          # deg
     rotation_change: 2           # deg
     min_pts_row: 2               # min number of points in a row to consider line fitting
     x_pred: 10.0                 # x value to feed to predict line fit
