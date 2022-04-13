@@ -37,6 +37,7 @@ row_entrance_detection:
     cluster_sub_topic: "/row_detection_processor_xyz/euclidean_cluster_extraction/clusters"
     pose_pub_topic: "/goal_pose"
     detection_status_topic: "/entrance_status"
+    odom_topic: "/odometry/filtered"
 
 row_detection_processor_xyz:
   ros__parameters:
