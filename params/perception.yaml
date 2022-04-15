@@ -2,16 +2,16 @@ row_detection:
   ros__parameters:
     use_sim_time: false
     autostart: false
-    y_max_threshold: 1.0         # y max threshold to include points in clustering
-    y_min_threshold: 0.0         # y min threshold to include points in clustering
-    x_threshold: 6.0             # abs x threshold to include points in clustering
-    start_x_threshold: 8.0       # x threshold to include points in clustering initially
-    line_fit_threshold: 2.0      # distance threshold [m] to decide if bad line fit
-    rotation_range:  15          # deg
-    rotation_change: 2           # deg
-    min_pts_row: 2               # min number of points in a row to consider line fitting
-    x_pred: 10.0                 # x value to feed to predict line fit
-    desired_x: 1.5               # x value of desired goal pose 
+    y_max_threshold: 1.0 # y max threshold to include points in clustering
+    y_min_threshold: 0.0 # y min threshold to include points in clustering
+    x_threshold: 6.0 # abs x threshold to include points in clustering
+    start_x_threshold: 8.0 # x threshold to include points in clustering initially
+    line_fit_threshold: 2.0 # distance threshold [m] to decide if bad line fit
+    rotation_range: 15 # deg
+    rotation_change: 2 # deg
+    min_pts_row: 2 # min number of points in a row to consider line fitting
+    x_pred: 10.0 # x value to feed to predict line fit
+    desired_x: 1.5 # x value of desired goal pose
     pose_pub_topic: "/goal_pose"
     cluster_sub_topic: "/row_detection_processor_xyz/euclidean_cluster_extraction/clusters"
     detection_status_topic: "/in_row_flag"
@@ -23,6 +23,22 @@ row_exit_detection:
     x_threshold: 2.0 # x lookahead to include point in clustering
     cluster_sub_topic: "/row_detection_processor_xyz/euclidean_cluster_extraction/clusters"
     detection_status_topic: "/exit_status"
+
+entrance_detection:
+  ros__parameters:
+    use_sim_time: false
+    autostart: false
+    # ROI parameters
+    x_max_threshold_en: 0.5 # 0.5m ahead of the robot
+    x_min_threshold_en: -3.5 # 2.5m behind the robot
+    y_min_threshold_en: -3.0 # 2.5m on the right of the robot
+    y_max_threshold_en: 3.0 # 2.5m on the left of the robot
+
+    reached_threshold: 0.3
+    cluster_sub_topic: "/row_detection_processor_xyz/euclidean_cluster_extraction/clusters"
+    pose_pub_topic: "/goal_pose"
+    detection_status_topic: "/entrance_status"
+    odom_topic: "/odometry/filtered"
 
 row_detection_processor_xyz:
   ros__parameters:
@@ -66,7 +82,7 @@ row_detection_processor_xyz:
     euclidean_cluster_extraction:
       plugin: "pcl_processor::EuclideanClusterExtraction"
       cluster_tolerance: 0.25
-      min_cluster_size: 20
+      min_cluster_size: 100
       max_cluster_size: 600
       publish_markers: true
 
