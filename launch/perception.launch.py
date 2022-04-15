@@ -24,7 +24,6 @@ def generate_launch_description():
         source_file=PathJoinSubstitution([current_pkg, 'params', 'perception.yaml']),
         root_key='',
         param_rewrites={
-            'autostart': 'false',
             'use_sim_time': LaunchConfiguration('use_sim_time')
             },
         convert_types=True,
@@ -57,6 +56,15 @@ def generate_launch_description():
         parameters=[params],
     )
     ld.add_action(spraybot_row_detection_node)
+
+    spraybot_entrance_detection_node = Node(
+        package='spraybot_entrance_detection',
+        executable='entrance_detection',
+        name='entrance_detection',
+        output='screen',
+        parameters=[params]
+        )
+    ld.add_action(spraybot_entrance_detection_node)
 
     # TODO: Create custom lifecycle manger with bond and auto-restart support
     lifecycle_manager_perception = Node(
